@@ -4,6 +4,35 @@
 
 ---
 
+## 2026-04-20 — 로컬 Docker 검증 및 쿠키 secure 버그 수정
+
+### 버그 수정
+- `src/app.js`: 세션 쿠키 `secure: config.isProduction` → `secure: 'auto'`, `app.set('trust proxy', 1)` 추가
+  - **문제**: HTTP 로 LAN/VPN 접속 시 쿠키가 브라우저로 돌아오지 않아 세션 유지 안 됨
+  - **원인**: `NODE_ENV=production` 이면 쿠키에 `Secure` 플래그가 붙어 HTTPS 에서만 전송됨
+  - **해결**: `'auto'` 로 요청 프로토콜에 따라 자동 결정. QuickConnect 의 DSM 역방향 프록시는 `X-Forwarded-Proto=https` 를 넘겨주므로 `trust proxy` 가 이를 HTTPS 로 인식
+
+### 검증 완료 (Docker Desktop 로컬)
+- [x] `docker compose build` — multi-stage 이미지 정상 빌드 (alpine + 네이티브 모듈 컴파일)
+- [x] `docker compose up -d` — healthcheck `healthy`
+- [x] HTTP 엔드포인트: `/healthz` 200, `/` 302→`/login`, `/login` 200, `/diary` 302→`/login`
+- [x] `npm run seed-admin` — 관리자 계정 생성 및 `--force` 로 승격
+- [x] E2E 플로우: 회원가입 → 일기 작성 → 목록 → 상세 → 수정 → 삭제
+- [x] 권한 검증: 일반 사용자(`bob`) → `/admin` 403
+- [x] 관리자 E2E: `/admin`, `/admin/users`, `/admin/diary` 모두 200, JOIN 쿼리 정상
+- [x] 재시작 영속성: `docker compose restart` 후 세션 유지 + 일기 데이터 유지
+
+### 유보 (실제 환경 필요)
+- [ ] T6.2 시놀로지 NAS 배포
+- [ ] T6.3-a 내부망 (LAN IP) 접속
+- [ ] T6.3-b VPN 접속
+- [ ] T6.3-c QuickConnect 외부 접속
+
+### 참고
+- curl 로 Git Bash 한글 폼 전송 시 모지바케 → 전송측(Windows 코드페이지) 이슈로 앱 결함 아님. 브라우저 경로에서는 UTF-8 로 정상 처리됨
+
+---
+
 ## 2026-04-20 — Phase 6: 검증 및 배포 가이드
 
 ### 추가
