@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-04-20 — Phase 4: 관리자 화면 + CLI seed
+
+### 추가
+- `src/routes/admin.js` — 대시보드 / 사용자 관리 / 전체 일기 관리
+- `src/views/admin/dashboard.ejs`, `users.ejs`, `diary.ejs`
+- `scripts/create-admin.js` — 관리자 계정 생성/승격 CLI
+- `npm run seed-admin` 스크립트 엔트리
+
+### 결정
+- **본인 계정 보호**: 관리자는 자신의 계정을 삭제/수정할 수 없음 (UI + 서버 양쪽 차단)
+- **비밀번호 초기화**: 12자 임시 비밀번호를 생성해 flash 메시지로 1회 노출. 관리자가 사용자에게 전달 후 즉시 변경 권고
+- **계정 삭제**: FK CASCADE 로 해당 사용자의 일기도 함께 삭제
+- **CLI 사용법**: `npm run seed-admin -- --username <아이디> --password <비밀번호> [--force]`
+  - `--force`: 기존 일반 사용자를 관리자로 승격하고 비밀번호 재설정
+- **Flash 메시지**: 세션에 1회성으로 저장 → 다음 요청에서 소비
+
+---
+
 ## 2026-04-20 — Phase 3: 사용자 일기 CRUD
 
 ### 추가

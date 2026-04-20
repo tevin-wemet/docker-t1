@@ -1,0 +1,19 @@
+<%- include('../partials/header', { title: '관리자 대시보드' }) %>
+
+<h1>관리자 대시보드</h1>
+
+<% if (flash) { %>
+  <p class="<%= flash.type === 'ok' ? 'muted' : 'error' %>"><%= flash.message %></p>
+<% } %>
+
+<div class="card">
+  <h2>개요</h2>
+  <p>등록 사용자: <strong><%= userCount %></strong> 명</p>
+  <p>전체 일기: <strong><%= entryCount %></strong> 건</p>
+  <div class="actions">
+    <a class="btn" href="/admin/users">사용자 관리</a>
+    <a class="btn" href="/admin/diary">전체 일기</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,49 @@
+<%- include('../partials/header', { title: '사용자 관리' }) %>
+
+<div class="toolbar">
+  <h1>사용자 관리</h1>
+  <a class="btn secondary" href="/admin">대시보드</a>
+</div>
+
+<% if (flash) { %>
+  <div class="card">
+    <p class="<%= flash.type === 'ok' ? 'muted' : 'error' %>"><%= flash.message %></p>
+  </div>
+<% } %>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>아이디</th><th>권한</th><th>일기 수</th><th>가입일</th><th>작업</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(function(u) { %>
+        <tr>
+          <td><%= u.id %></td>
+          <td><%= u.username %><% if (u.id === currentUser.id) { %> <small class="muted">(본인)</small><% } %></td>
+          <td><%= u.role %></td>
+          <td><%= u.entry_count %></td>
+          <td><%= u.created_at %></td>
+          <td>
+            <% if (u.id !== currentUser.id) { %>
+              <form class="inline" method="post" action="/admin/users/<%= u.id %>/reset-password"
+                    onsubmit="return confirm('임시 비밀번호로 초기화하시겠습니까?');">
+                <button type="submit" class="secondary">비밀번호 초기화</button>
+              </form>
+              <form class="inline" method="post" action="/admin/users/<%= u.id %>/delete"
+                    onsubmit="return confirm('정말 <%= u.username %> 계정을 삭제합니까? 일기도 함께 삭제됩니다.');">
+                <button type="submit" class="danger">삭제</button>
+              </form>
+            <% } else { %>
+              <span class="muted">본인 계정은 수정 불가</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

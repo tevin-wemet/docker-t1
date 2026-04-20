@@ -1,0 +1,45 @@
+<%- include('../partials/header', { title: '전체 일기' }) %>
+
+<div class="toolbar">
+  <h1>전체 일기</h1>
+  <a class="btn secondary" href="/admin">대시보드</a>
+</div>
+
+<% if (flash) { %>
+  <div class="card">
+    <p class="<%= flash.type === 'ok' ? 'muted' : 'error' %>"><%= flash.message %></p>
+  </div>
+<% } %>
+
+<div class="card">
+  <% if (entries.length === 0) { %>
+    <p class="muted">아직 작성된 일기가 없습니다.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>날짜</th><th>제목</th><th>작성자</th><th>수정</th><th>작업</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% entries.forEach(function(e) { %>
+          <tr>
+            <td><%= e.id %></td>
+            <td><%= e.entry_date %></td>
+            <td><%= e.title %></td>
+            <td><%= e.author %></td>
+            <td><%= e.updated_at %></td>
+            <td>
+              <form class="inline" method="post" action="/admin/diary/<%= e.id %>/delete"
+                    onsubmit="return confirm('정말 이 일기를 삭제합니까?');">
+                <button type="submit" class="danger">삭제</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

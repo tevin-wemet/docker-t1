@@ -46,6 +46,7 @@ app.get('/', (req, res) => {
 
 app.use('/', require('./routes/auth'));
 app.use('/diary', require('./routes/diary'));
+app.use('/admin', require('./routes/admin'));
 
 app.use((req, res) => {
   res.status(404).send('Not Found');
