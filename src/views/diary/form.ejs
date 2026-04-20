@@ -1,0 +1,23 @@
+<%- include('../partials/header', { title: mode === 'new' ? '새 일기' : '일기 수정' }) %>
+
+<section class="card">
+  <h1><%= mode === 'new' ? '새 일기 쓰기' : '일기 수정' %></h1>
+  <% if (error) { %><p class="error"><%= error %></p><% } %>
+  <form method="post" action="<%= mode === 'new' ? '/diary/new' : `/diary/${entry.id}/edit` %>">
+    <label>날짜
+      <input type="date" name="entry_date" value="<%= entry.entry_date %>" required>
+    </label>
+    <label>제목
+      <input type="text" name="title" value="<%= entry.title %>" maxlength="200" required>
+    </label>
+    <label>본문
+      <textarea name="content" maxlength="20000" required><%= entry.content %></textarea>
+    </label>
+    <div class="actions">
+      <a class="btn secondary" href="<%= mode === 'new' ? '/diary' : `/diary/${entry.id}` %>">취소</a>
+      <button type="submit">저장</button>
+    </div>
+  </form>
+</section>
+
+<%- include('../partials/footer') %>

@@ -4,6 +4,21 @@
 
 ---
 
+## 2026-04-20 — Phase 3: 사용자 일기 CRUD
+
+### 추가
+- `src/routes/diary.js` — 목록/상세/작성/수정/삭제 + `loadOwnedEntry` 소유권 검증
+- `src/views/diary/list.ejs`, `detail.ejs`, `form.ejs`
+
+### 결정
+- **제목 최대**: 200자, **본문 최대**: 20,000자
+- **정렬**: `entry_date DESC, id DESC` (일기 날짜 역순, 같은 날짜는 최신 작성 순)
+- **날짜 형식**: `YYYY-MM-DD` 검증
+- **소유권 위반**: 타인 일기 접근 시 403 Forbidden
+- **삭제**: 확인 다이얼로그(JS `confirm`) 후 POST
+
+---
+
 ## 2026-04-20 — Phase 2: 인증
 
 ### 추가

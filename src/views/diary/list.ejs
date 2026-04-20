@@ -1,0 +1,25 @@
+<%- include('../partials/header', { title: '내 일기' }) %>
+
+<div class="toolbar">
+  <h1>내 일기</h1>
+  <a class="btn" href="/diary/new">새 일기 쓰기</a>
+</div>
+
+<% if (entries.length === 0) { %>
+  <div class="card">
+    <p class="muted">아직 작성한 일기가 없습니다. 첫 일기를 작성해보세요.</p>
+  </div>
+<% } else { %>
+  <div class="card">
+    <ul class="entry-list">
+      <% entries.forEach(function(entry) { %>
+        <li>
+          <span class="date"><%= entry.entry_date %></span>
+          <a class="title" href="/diary/<%= entry.id %>"><%= entry.title %></a>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

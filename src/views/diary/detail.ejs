@@ -1,0 +1,23 @@
+<%- include('../partials/header', { title: entry.title }) %>
+
+<div class="card">
+  <div class="toolbar">
+    <div>
+      <h1 style="margin:0"><%= entry.title %></h1>
+      <p class="muted"><%= entry.entry_date %> · 작성 <%= entry.created_at %>
+      <% if (entry.updated_at !== entry.created_at) { %> · 수정 <%= entry.updated_at %><% } %>
+      </p>
+    </div>
+    <div class="actions">
+      <a class="btn secondary" href="/diary">목록</a>
+      <a class="btn" href="/diary/<%= entry.id %>/edit">수정</a>
+      <form class="inline" method="post" action="/diary/<%= entry.id %>/delete"
+            onsubmit="return confirm('정말 삭제하시겠습니까?');">
+        <button type="submit" class="danger">삭제</button>
+      </form>
+    </div>
+  </div>
+  <article><pre style="white-space:pre-wrap;font-family:inherit;font-size:1rem;margin:0"><%= entry.content %></pre></article>
+</div>
+
+<%- include('../partials/footer') %>
