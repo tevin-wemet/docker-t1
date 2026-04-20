@@ -4,6 +4,28 @@
 
 ---
 
+## 2026-04-20 — Phase 5: Docker 패키징
+
+### 추가
+- `Dockerfile` — multi-stage (`node:20-alpine` 기반)
+  - build stage 에서 네이티브 모듈 컴파일용 `python3/make/g++/sqlite` 설치 → `npm install --omit=dev`
+  - runtime stage 는 tini + 비권한 `app` 사용자 + `/app/data` VOLUME
+  - 내장 healthcheck: `wget /healthz`
+- `docker-compose.yml` — 호스트 포트 `HOST_PORT` (기본 3000), `SESSION_SECRET` 필수, `./data` 볼륨 마운트
+- `.dockerignore` — node_modules, .git, data, docs 등 제외
+
+### 결정
+- **이미지 베이스**: `node:20-alpine` (이미지 크기 최소화)
+- **프로세스 슈퍼바이저**: `tini` (PID 1 신호 전달 문제 방지)
+- **컨테이너 실행 사용자**: 비권한 `app` (UID 100+ 대, alpine 기본 adduser -S)
+- **호스트 포트 설정**: `.env` 의 `HOST_PORT` 로 재매핑 가능 (시놀로지에서 다른 서비스와 충돌 시)
+- **SESSION_SECRET 필수화**: compose 가 미설정 시 기동 실패시킴 (프로덕션 안전)
+
+### 로컬 검증 유보
+- Docker Desktop 미기동 상태라 로컬 이미지 빌드 검증은 Phase 6 에서 수행
+
+---
+
 ## 2026-04-20 — Phase 4: 관리자 화면 + CLI seed
 
 ### 추가
