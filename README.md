@@ -29,6 +29,7 @@ npm run dev
 - [도메인 정의](docs/domain.md)
 - [사용자 시나리오](docs/user-scenarios.md)
 - [작업 분할](docs/tasks.md)
+- [배포 가이드](docs/deployment.md) — 시놀로지 NAS 배포 · QuickConnect · VPN · 검증 체크리스트
 - [변경 이력](docs/changelog.md)
 
 ## 원격 저장소

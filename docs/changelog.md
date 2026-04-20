@@ -4,6 +4,52 @@
 
 ---
 
+## 2026-04-20 — Phase 6: 검증 및 배포 가이드
+
+### 추가
+- `docs/deployment.md` — 로컬 검증 → NAS 배포 → QuickConnect/VPN 설정 → 네트워크 검증 체크리스트 → 트러블슈팅 → 운영 팁
+- `docs/tasks.md` 체크박스 진행률 업데이트 (Phase 0~5 완료, Phase 6 은 실기 검증 대기)
+- README 의 문서 목록에 배포 가이드 링크 추가
+
+### 유보 항목
+- **T6.1 로컬 `docker compose up`**: Docker Desktop 미기동 상태라 실행 검증 못함
+- **T6.2 NAS 배포**: NAS 원격 접근 필요
+- **T6.3 내부/외부 접속 + 재시작 영속성**: 실제 네트워크 환경 필요
+
+→ 세 항목 모두 사용자가 Docker Desktop / NAS 에서 `docs/deployment.md` 절차 따라 확인 후 본 changelog 에 결과 추가 예정.
+
+### 최종 프로젝트 구조
+
+```
+docker-t1/
+├── CLAUDE.md
+├── README.md
+├── .env.example
+├── .gitignore
+├── .dockerignore
+├── Dockerfile
+├── docker-compose.yml
+├── package.json
+├── docs/
+│   ├── domain.md, prd.md, user-scenarios.md, tasks.md
+│   ├── deployment.md
+│   └── changelog.md
+├── src/
+│   ├── app.js, config.js, db.js, schema.sql
+│   ├── middleware/auth.js
+│   ├── routes/auth.js, diary.js, admin.js
+│   └── views/
+│       ├── login.ejs, register.ejs
+│       ├── partials/header.ejs, footer.ejs
+│       ├── diary/list.ejs, detail.ejs, form.ejs
+│       └── admin/dashboard.ejs, users.ejs, diary.ejs
+├── scripts/create-admin.js
+├── public/style.css
+└── data/     (gitignored — SQLite 파일 보관소)
+```
+
+---
+
 ## 2026-04-20 — Phase 5: Docker 패키징
 
 ### 추가
