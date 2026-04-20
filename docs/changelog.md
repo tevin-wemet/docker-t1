@@ -4,7 +4,24 @@
 
 ---
 
-## 2026-04-20
+## 2026-04-20 — Phase 1: 백엔드 기반
+
+### 추가
+- `package.json` — express, express-session, connect-sqlite3, better-sqlite3, bcrypt, ejs
+- `src/schema.sql` — users, diary_entries 스키마 + FK CASCADE + 인덱스
+- `src/config.js` — 환경변수 기반 설정 (PORT/HOST/DB_PATH/SESSION_SECRET/DATA_DIR)
+- `src/db.js` — SQLite 부트스트랩 (WAL 모드, FK ON, 스키마 자동 적용)
+- `src/app.js` — Express 엔트리포인트 + EJS 뷰 엔진 + SQLite 세션 저장소
+- `.env.example` — 배포 환경변수 템플릿
+
+### 결정
+- **세션 저장소**: SQLite 파일(`sessions.db`)로 영속화 → 컨테이너 재시작해도 로그인 유지
+- **DB 디렉터리**: `./data` (호스트 볼륨 마운트 대상). 앱 DB(`diary.db`)와 세션 DB(`sessions.db`) 둘 다 이 아래 저장
+- **로컬 개발 제약**: Windows 에서 `better-sqlite3` 네이티브 빌드 이슈 발생 가능 → Docker 로 검증 진행
+
+---
+
+## 2026-04-20 — Phase 0: 문서 및 초기 셋업
 
 ### 추가
 - `docs/domain.md` — 도메인 정의서 최초 작성
