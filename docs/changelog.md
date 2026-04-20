@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-04-20 — Phase 2: 인증
+
+### 추가
+- `src/middleware/auth.js` — `requireAuth`, `requireAdmin` 미들웨어
+- `src/routes/auth.js` — 회원가입 / 로그인 / 로그아웃 라우트
+- `src/views/login.ejs`, `src/views/register.ejs` — 인증 화면
+- `src/views/partials/header.ejs`, `footer.ejs` — 공통 레이아웃 (include 방식)
+- `public/style.css` — 전역 스타일
+
+### 결정
+- **회원가입**: 누구나 가입 가능 (MVP 기준). 초대제로 바꿀 경우 `/register` 라우트를 관리자 전용으로 이동
+- **아이디 규칙**: 영문/숫자/`_` 3~20자
+- **비밀번호 최소 길이**: 8자
+- **세션 쿠키**: `HttpOnly` + `SameSite=Lax`, `NODE_ENV=production` 시 `secure=true` (HTTPS 필수)
+- **관리자 로그인 시**: `/admin` 으로 리다이렉트 (화면은 Phase 4 에서 추가)
+
+---
+
 ## 2026-04-20 — Phase 1: 백엔드 기반
 
 ### 추가

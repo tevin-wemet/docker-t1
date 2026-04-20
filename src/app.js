@@ -44,6 +44,8 @@ app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
+app.use('/', require('./routes/auth'));
+
 app.use((req, res) => {
   res.status(404).send('Not Found');
 });

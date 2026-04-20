@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : '일기장' %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">일기장</a>
+    <nav>
+      <% if (currentUser) { %>
+        <span class="greeting"><%= currentUser.username %> 님</span>
+        <% if (currentUser.role === 'admin') { %>
+          <a href="/admin">관리자</a>
+        <% } %>
+        <a href="/diary">내 일기</a>
+        <form action="/logout" method="post" class="inline">
+          <button type="submit" class="link-btn">로그아웃</button>
+        </form>
+      <% } else { %>
+        <a href="/login">로그인</a>
+        <a href="/register">회원가입</a>
+      <% } %>
+    </nav>
+  </header>
+  <main class="container">

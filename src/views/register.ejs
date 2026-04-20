@@ -1,0 +1,21 @@
+<%- include('partials/header', { title: '회원가입' }) %>
+
+<section class="card auth">
+  <h1>회원가입</h1>
+  <% if (error) { %><p class="error"><%= error %></p><% } %>
+  <form method="post" action="/register">
+    <label>아이디 <small class="muted">(3~20자, 영문/숫자/_)</small>
+      <input type="text" name="username" value="<%= username %>" required autofocus>
+    </label>
+    <label>비밀번호 <small class="muted">(8자 이상)</small>
+      <input type="password" name="password" required minlength="8">
+    </label>
+    <label>비밀번호 확인
+      <input type="password" name="passwordConfirm" required minlength="8">
+    </label>
+    <button type="submit">가입</button>
+  </form>
+  <p class="muted">이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+</section>
+
+<%- include('partials/footer') %>
